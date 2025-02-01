@@ -1,12 +1,12 @@
 {
-  "name": "test-app",
+  "name": "app",
   "version": "1.0.0",
-  "description": "An Electron application with React",
+  "description": "An Electron application with Svelte",
   "main": "./out/main/index.js",
   "author": "example.com",
   "homepage": "https://electron-vite.org",
   "scripts": {
-    "format": "prettier --write .",
+    "format": "prettier --plugin prettier-plugin-svelte --write .",
     "lint": "eslint . --ext .js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix",
     "start": "electron-vite preview",
     "dev": "electron-vite dev",
@@ -25,15 +25,15 @@
   "devDependencies": {
     "@electron-toolkit/eslint-config": "^1.0.2",
     "@electron-toolkit/eslint-config-prettier": "^2.0.0",
-    "@vitejs/plugin-react": "^4.3.1",
+    "@sveltejs/vite-plugin-svelte": "^3.1.1",
     "electron": "^31.0.2",
     "electron-builder": "^24.13.3",
     "electron-vite": "^2.3.0",
     "eslint": "^8.57.0",
-    "eslint-plugin-react": "^7.34.3",
+    "eslint-plugin-svelte": "^2.41.0",
     "prettier": "^3.3.2",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
+    "prettier-plugin-svelte": "^3.2.5",
+    "svelte": "^4.2.18",
     "vite": "^5.3.1"
   }
 }
