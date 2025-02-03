@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import MessageSender from "../../../../../renderer/src/components/MessageSender.svelte";
 
 </script>

@@ -2,13 +2,16 @@
   import { onMount } from "svelte";
 
   let message = $state("");
+  let settings = $state();
   let server_message = $state("");
   let messages: any[] = $state([]);
   let messsage_output = $state("");
-  let socket: WebSocket;
+  let socket: WebSocket; 
 
   onMount(() => {
     let temp = localStorage.getItem("messages");
+    let temp1 = localStorage.getItem("settings");
+    if (temp1) settings = JSON.parse(temp1);
     if (temp) messages = JSON.parse(temp);
     socket = new WebSocket("ws://localhost:8080/message");
 
@@ -58,7 +61,18 @@
     }
   };
 
-  const update = (e) => {
+  const adjustHeight = (e: any) => {
+    // @ts-ignore
+    event.target.style.height = "4rem";
+    // @ts-ignore 
+    event.target.style.height = event.target.scrollHeight + "px";
+  }
+
+  const deleteMessage = (id: string) => {
+    messages = messages.filter((msg) => msg.id !== id);
+  }
+
+  const update = (e: KeyboardEvent) => {
     if (e.key === "Enter") {
       send();
     }
@@ -68,7 +82,7 @@
 <div class="block">
   {#each messages as user}
     <div
-      class="flex items-start space-x-4 p-4 rounded-lg bg-white mb-4 overflow-hidden max-w-3xl"
+      class="flex items-end space-x-4 p-8 rounded-lg bg-white overflow-hidden max-w-2xl"
     >
       <div class="flex flex-col flex-grow">
         <div class="flex justify-between w-full">
@@ -81,18 +95,24 @@
           >{user.message}</span
         >
       </div>
+      <button
+        class="absolute top-2 right-2 bg-red-500 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+        onclick={() => deleteMessage(user.id)}
+      >
+      ✕
+    </button>
     </div>
   {/each}
-  <!-- New Messages -->
   <span>
     {@html messsage_output}
   </span>
 </div>
-<div class="absolute inset-x-0 bottom-0 p-4">
+<div class="relative inset-x-0 bottom-0 p-4">
   <textarea
     bind:value={message}
-    class="ml-[180px] w-[36rem] h-32 p-4 text-lg border-2 border-gray-300 rounded-md shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+    class="ml-[2rem] w-[36rem] min-h-[4rem] p-4 text-lg border border-gray-300 rounded-xl shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white transition-all duration-200 ease-in-out resize-none"
     placeholder="Type your message here..."
+    oninput={(e) => adjustHeight(e)}
     onkeydown={update}
   ></textarea>
 </div>
